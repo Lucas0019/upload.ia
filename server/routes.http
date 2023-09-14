@@ -1,0 +1,37 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+# @name upload-videos
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="pinho.mp3"
+Content-Type: audio/mpeg
+
+< ./pinho.mp3
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+# @name create-transcription
+  
+POST http://localhost:3333/videos/d55d187a-fdd9-46af-8d40-78365942c10b/transcription
+Content-Type: application/json
+
+{
+  "prompt": "Pinho, minimalismo, essencialismo."
+}
+
+###
+# @name generate-ai-completion
+
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "d55d187a-fdd9-46af-8d40-78365942c10b",
+  "temperature": 0.5,
+  "template": "Gere um resumo sucinto da transcrição do vídeo informado a seguir: '''{transcription}'''"
+}
